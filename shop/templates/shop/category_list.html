@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>House of Drips</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Oleo+Script+Swash+Caps:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #e0f7fa;
+      color: #333;
+    }
+    header {
+      background-color: #01579b;
+      color: #fff;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-family: 'Oleo Script Swash Caps', cursive;
+    }
+    header p {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .categories {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      padding: 40px;
+      background-color: #e1f5fe;
+    }
+    .category {
+      text-align: center;
+      padding: 20px;
+      flex: 1 1 30%;
+      max-width: 300px;
+      margin: 10px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .category img {
+      width: 100%;
+      max-width: 200px;
+      border-radius: 10px;
+    }
+    .category h3 {
+      margin: 10px 0;
+      color: #01579b;
+    }
+    .category a {
+      text-decoration: none;
+      display: inline-block;
+      padding: 8px 15px;
+      background-color: #01579b;
+      color: white;
+      border-radius: 5px;
+    }
+    .category a:hover {
+      background-color: #014374;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #01579b;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>House of Drips</h1>
+  <p>Explore our collections</p>
+</header>
+
+<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
+  <div class="carousel-indicators">
+    {% for highlight in highlights %}
+    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="{% if forloop.first %}true{% endif %}" aria-label="Slide {{ forloop.counter }}"></button>
+    {% endfor %}
+  </div>
+
+  <div class="carousel-inner">
+    {% for highlight in highlights %}
+    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+      <img src="{{ highlight.value }}" class="d-block w-100" alt="{{ highlight }}">
+    </div>
+    {% endfor %}
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<section class="categories">
+  {% for category in categories %}
+  <div class="category">
+    <img src="{{ category.imageUrl }}" alt="{{ category.name }}">
+    <h3>{{ category.name }}</h3>
+    <a href="{% url 'product_list' category.id %}">View Products</a>
+  </div>
+  {% endfor %}
+</section>
+
+<footer>
+  &copy; 2024 House of Drips. All Rights Reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

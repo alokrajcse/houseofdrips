@@ -1,0 +1,7 @@
+<h1>Add Category</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Category</button>
+</form>
+<a href="/">Back to Home</a>

@@ -1,0 +1,21 @@
+<h1>Reorder Categories</h1>
+<ul id="category-list">
+    {% for category in categories %}
+        <li data-id="{{ category.id }}">{{ category.name }}</li>
+    {% endfor %}
+</ul>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="order[]" id="order-input">
+    <button type="submit" onclick="setOrder()">Reorder</button>
+</form>
+<script>
+    const list = document.getElementById("category-list");
+    const orderInput = document.getElementById("order-input");
+
+    function setOrder() {
+        const order = Array.from(list.children).map(li => li.dataset.id);
+        orderInput.value = JSON.stringify(order);
+    }
+</script>
+<a href="/categories/">Back to Categories</a>
