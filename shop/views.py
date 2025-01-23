@@ -45,10 +45,23 @@ def authenticate_user(username, password):
 
 
 
+import requests
+from requests.exceptions import JSONDecodeError
+
 def category_list(request):
     # Fetch categories
-    response = requests.get(f"{GOOGLE_SCRIPT_URL}?action=getCategories")
-    categories = response.json()
+    try:
+        response = requests.get(f"{GOOGLE_SCRIPT_URL}?action=getCategories")
+        response.raise_for_status()  # Raise an error for non-2xx status codes
+        categories = response.json()  # Try to decode JSON response
+    except requests.exceptions.RequestException as e:
+        # Handle network or status code errors (e.g., 404, 500, etc.)
+        categories = []  # Fallback if there's an error
+        print(f"Request failed: {e}")
+    except JSONDecodeError:
+        # Handle invalid JSON response
+        categories = []  # Fallback if JSON is invalid
+        print(f"Invalid JSON response: {response.text}")
 
     # Fetch highlights
     highlights = get_highlights()
